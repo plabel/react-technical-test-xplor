@@ -4,6 +4,10 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import ChatBubble from "./ChatBubble";
 import useFetch from "./useFetch";
+import { useContext } from "react";
+import { UriContext } from "./UriContext";
+import { UriContextType } from "./types";
+import { baseUrl } from "./const";
 
 type User = {
   login: string;
@@ -30,7 +34,10 @@ type Comment = {
 };
 
 export default function MessagesPane() {
-  const issue = useFetch<Issue>({ url: "https://api.github.com/repos/facebook/react/issues/7901" });
+  const {
+    uri,
+  }: UriContextType = useContext(UriContext);
+  const issue = useFetch<Issue>({ url: `${baseUrl}${uri}` });
   const comments = useFetch<Comment[]>({ url: issue.data?.comments_url }, { enabled: issue.isFetched });
 
   return (

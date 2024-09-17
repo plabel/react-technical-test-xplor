@@ -1,7 +1,22 @@
 import Input from "@mui/joy/Input";
 import Sheet from "@mui/joy/Sheet";
+import { ChangeEvent, useContext } from "react";
+import { UriContextType } from "./types";
+import { UriContext } from "./UriContext";
+import FormControl from "@mui/joy/FormControl";
+import { validateInputValue } from "./helpers/validateInputValue";
 
 export default function Sidebar() {
+  const {
+    uri,
+    setUri,
+  }: UriContextType = useContext(UriContext);
+  const error: boolean = !validateInputValue(uri);
+
+  const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
+    setUri(event.target.value)
+  };
+
   return (
     <Sheet
       className="Sidebar"
@@ -19,7 +34,9 @@ export default function Sidebar() {
         borderColor: "divider",
       }}
     >
-      <Input value="facebook/react/issues/7901" />
+      <FormControl error={error}>
+        <Input value={uri} onChange={changeHandler} />
+      </FormControl>
     </Sheet>
   );
 }
