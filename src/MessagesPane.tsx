@@ -3,42 +3,12 @@ import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import ChatBubble from "./ChatBubble";
-import useFetch from "./useFetch";
-import { useContext } from "react";
-import { UriContext } from "./UriContext";
-import { UriContextType } from "./types";
-import { baseUrl } from "./const";
+import { MessagesPaneProps } from "./types";
 
-type User = {
-  login: string;
-  avatar_url: string;
-};
-
-type Issue = {
-  id: number;
-  created_at: string;
-  user: User;
-
-  number: number;
-  title: string;
-  body: string;
-  comments_url: string;
-};
-
-type Comment = {
-  id: number;
-  created_at: string;
-  user: User;
-
-  body: string;
-};
-
-export default function MessagesPane() {
-  const {
-    uri,
-  }: UriContextType = useContext(UriContext);
-  const issue = useFetch<Issue>({ url: `${baseUrl}${uri}` });
-  const comments = useFetch<Comment[]>({ url: issue.data?.comments_url }, { enabled: issue.isFetched });
+export default function MessagesPane({
+  issue,
+  comments
+}: MessagesPaneProps) {
 
   return (
     <Sheet
@@ -49,41 +19,55 @@ export default function MessagesPane() {
         backgroundColor: "background.level1",
       }}
     >
-      {issue.data && (
-        <Stack
-          direction="column"
-          justifyContent="space-between"
-          sx={{
-            borderBottom: "1px solid",
-            borderColor: "divider",
-            backgroundColor: "background.body",
-          }}
-          py={{ xs: 2, md: 2 }}
-          px={{ xs: 1, md: 2 }}
-        >
-          <Typography
-            fontWeight="lg"
-            fontSize="lg"
-            component="h2"
-            noWrap
-            endDecorator={
-              <Chip
-                variant="outlined"
-                size="sm"
-                color="neutral"
-                sx={{
-                  borderRadius: "sm",
-                }}
-              >
-                #{issue.data?.number}
-              </Chip>
-            }
-          >
-            {issue.data.title}
-          </Typography>
-          <Typography level="body-sm">{issue.data.user.login}</Typography>
-        </Stack>
-      )}
+      <Stack
+        direction="column"
+        justifyContent="space-between"
+        sx={{
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          backgroundColor: "background.body",
+        }}
+        py={{ xs: 2, md: 2 }}
+        px={{ xs: 1, md: 2 }}
+      >
+        {issue.data ? (
+          <>
+            <Typography
+              fontWeight="lg"
+              fontSize="lg"
+              component="h2"
+              noWrap
+              endDecorator={
+                <Chip
+                  variant="outlined"
+                  size="sm"
+                  color="neutral"
+                  sx={{
+                    borderRadius: "sm",
+                  }}
+                >
+                  #{issue.data?.number}
+                </Chip>
+              }
+            >
+              {issue.data.title}
+            </Typography>
+            <Typography level="body-sm">{issue.data.user.login}</Typography>
+          </>
+        ) :
+          (<>
+            <Typography
+              fontWeight="lg"
+              fontSize="lg"
+              component="h2"
+              noWrap
+            >
+              Issue not Found
+            </Typography>
+            <Typography level="body-sm">404</Typography>
+          </>)
+        }
+      </Stack>
       {comments.data && (
         <Stack spacing={2} justifyContent="flex-end" px={2} py={3}>
           <ChatBubble variant="solid" {...issue.data!} />

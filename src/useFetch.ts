@@ -1,6 +1,7 @@
 import { UndefinedInitialDataInfiniteOptions, useInfiniteQuery } from "@tanstack/react-query";
 import { parse } from "http-link-header";
 import axios, { AxiosRequestConfig } from "axios";
+import { authStr } from "./const";
 
 function useFetch<T>(
   config: AxiosRequestConfig,
@@ -9,7 +10,11 @@ function useFetch<T>(
   return useInfiniteQuery({
     ...options,
     queryKey: [config],
-    queryFn: ({ pageParam: url }) => axios.request<T>({ ...config, url }),
+    queryFn: ({ pageParam: url }) => axios.request<T>({
+      ...config, url, headers: {
+        Authorization: authStr
+      }
+    }),
     select(data): T {
       const initialData = data.pages[0].data;
       if (data.pages.length < 2) {

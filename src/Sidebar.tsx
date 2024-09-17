@@ -5,6 +5,8 @@ import { UriContextType } from "./types";
 import { UriContext } from "./UriContext";
 import FormControl from "@mui/joy/FormControl";
 import { validateInputValue } from "./helpers/validateInputValue";
+import { UserList } from "./UserList";
+import Divider from "@mui/joy/Divider";
 
 export default function Sidebar() {
   const {
@@ -37,6 +39,8 @@ export default function Sidebar() {
       <FormControl error={error}>
         <Input value={uri} onChange={changeHandler} />
       </FormControl>
+      <Divider></Divider>
+      <UserList></UserList>
     </Sheet>
   );
 }

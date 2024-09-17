@@ -5,14 +5,19 @@ import MessagesPane from "./MessagesPane";
 import Sidebar from "./Sidebar";
 import { UriContext } from "./UriContext";
 import { useState } from "react";
-import { defaultUri } from "./const";
-import { UriContextType } from "./types";
+import { baseUrl, defaultUri } from "./const";
+import { Issue, UriContextType, Comment } from "./types";
+import useFetch from "./useFetch";
+import { UseInfiniteQueryResult } from "@tanstack/react-query";
 
 function App() {
   const [uri, setUri] = useState<string>(defaultUri);
+  const issue: UseInfiniteQueryResult<Issue, any> = useFetch<Issue>({ url: `${baseUrl}${uri}` });
+  const comments: UseInfiniteQueryResult<Comment[], any> = useFetch<Comment[]>({ url: issue.data?.comments_url }, { enabled: issue.isFetched });
   const uriContextObj: UriContextType = {
     uri,
     setUri,
+    comments
   }
 
   return (
@@ -24,7 +29,7 @@ function App() {
             <Sidebar />
           </Box>
           <Box component="main" sx={{ flex: 1 }}>
-            <MessagesPane />
+            <MessagesPane issue={issue} comments={comments} />
           </Box>
         </Box>
       </CssVarsProvider>
