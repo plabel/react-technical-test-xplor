@@ -4,7 +4,8 @@ import { Dispatch, SetStateAction } from "react";
 export type UriContextType = {
     uri: string;
     setUri: Dispatch<SetStateAction<string>>;
-    comments: UseInfiniteQueryResult<Comment[], any>
+    timelineEvents: UseInfiniteQueryResult<TimelineEvent[], any>;
+    issue: UseInfiniteQueryResult<Issue, any>;
 }
 
 export type User = {
@@ -20,12 +21,21 @@ export type Issue = {
     number: number;
     title: string;
     body: string;
-    comments_url: string;
+    timeline_url: string;
 };
 
-export type Comment = {
+export type TimelineItemProps = {
+    created_at: string;
+    event: string;
+    user: User;
+
+    body: string;
+}
+
+export type TimelineEvent = {
     id: number;
     created_at: string;
+    event: string;
     user: User;
 
     body: string;
@@ -33,11 +43,35 @@ export type Comment = {
 export interface UserWithCommentCount extends User {
     commentCount: number;
 };
+export type ChatBubbleProps = {
+    body: string;
+    created_at: string;
+    user: User;
+};
 
 export type MessagesPaneProps = {
     issue: UseInfiniteQueryResult<Issue, any>;
-    comments: UseInfiniteQueryResult<Comment[], any>;
+    timelineEvents: UseInfiniteQueryResult<TimelineEvent[], any>;
 };
 export type UserItemProps = {
     user: UserWithCommentCount;
+}
+export type MentionedProps = {
+    actor?: User;
+    created_at: string;
+    source?: {
+        issue: {
+            state: string;
+            title: string;
+            number: number;
+        }
+    }
+}
+export type LabeledProps = {
+    actor?: User;
+    created_at: string;
+    label?: {
+        name: string;
+        color: string;
+    }
 }

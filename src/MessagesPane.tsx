@@ -4,10 +4,12 @@ import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import ChatBubble from "./ChatBubble";
 import { MessagesPaneProps } from "./types";
+import { TimelineItem } from "./TimelineItem";
+import { TimelineEventType, timelineEventTypes } from "./const";
 
 export default function MessagesPane({
   issue,
-  comments
+  timelineEvents
 }: MessagesPaneProps) {
 
   return (
@@ -68,16 +70,17 @@ export default function MessagesPane({
           </>)
         }
       </Stack>
-      {comments.data && (
+      {timelineEvents.data && (
         <Stack spacing={2} justifyContent="flex-end" px={2} py={3}>
-          <ChatBubble variant="soft" {...issue.data!} />
-          {comments.data.map((comment) => (
-            <ChatBubble
-              key={comment.id}
-              variant={comment.user.login === issue.data!.user.login ? "soft" : "outlined"}
-              {...comment}
-            />
-          ))}
+          <ChatBubble {...issue.data!} />
+          {timelineEvents.data
+            .filter((timelineEvent) => timelineEventTypes.includes(timelineEvent.event as TimelineEventType))
+            .map((timelineEvent) => (
+              <TimelineItem
+                key={timelineEvent.id}
+                {...timelineEvent}
+              />
+            ))}
         </Stack>
       )}
     </Sheet>

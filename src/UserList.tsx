@@ -9,24 +9,26 @@ import { UriContextType, UserWithCommentCount } from "./types";
 
 export const UserList = () => {
     const {
-        comments
+        timelineEvents
     }: UriContextType = useContext(UriContext);
 
     const usersDataWithCommentCount: UserWithCommentCount[] = useMemo(() => {
         const initialVal: Record<string, UserWithCommentCount> = {};
-        const recordOfUsersWithCommentCount: Record<string, UserWithCommentCount> | undefined = comments.data?.reduce((acc, current) => {
-            if (acc[current.user.login] === undefined) {
-                acc[current.user.login] = {
-                    ...current.user,
-                    commentCount: 1,
-                } as UserWithCommentCount
-            } else {
-                acc[current.user.login].commentCount++;
-            }
-            return acc
-        }, initialVal);
+        const recordOfUsersWithCommentCount: Record<string, UserWithCommentCount> | undefined = timelineEvents.data
+            ?.filter((timelineEvent) => timelineEvent.user !== undefined)
+            .reduce((acc, current) => {
+                if (acc[current.user.login] === undefined) {
+                    acc[current.user.login] = {
+                        ...current.user,
+                        commentCount: 1,
+                    } as UserWithCommentCount
+                } else {
+                    acc[current.user.login].commentCount++;
+                }
+                return acc
+            }, initialVal);
         return Object.values(recordOfUsersWithCommentCount ?? {});
-    }, [comments]);
+    }, [timelineEvents]);
 
     return (
         <Box sx={{ width: 300 }}>

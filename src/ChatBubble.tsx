@@ -4,23 +4,15 @@ import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import { StyledMarkdown } from "./StyledMarkdown";
-import { useEffect } from "react";
-import hljs from 'highlight.js';
+import { ChatBubbleProps, UriContextType } from "./types";
+import { useContext } from "react";
+import { UriContext } from "./UriContext";
 
-type ChatBubbleProps = {
-  body: string;
-  variant: "outlined" | "soft";
-  created_at: string;
-  user: {
-    login: string;
-    avatar_url: string;
-  };
-};
 
-export default function ChatBubble({ body, variant, created_at, user }: ChatBubbleProps) {
-  useEffect(() => {
-    hljs.highlightAll();
-  }, []);
+export default function ChatBubble({ body, created_at, user }: ChatBubbleProps) {
+  const { issue }: UriContextType = useContext(UriContext);
+  const variant: "outlined" | "soft" = user.login === issue.data!.user.login ? "soft" : "outlined"
+
   return (
     <Stack direction="row" spacing={2}>
       <Avatar size="sm" variant="solid" src={user.avatar_url} />
@@ -29,7 +21,7 @@ export default function ChatBubble({ body, variant, created_at, user }: ChatBubb
           <Typography level="body-xs" fontWeight="bold">
             {user.login}
           </Typography>
-          <Typography level="body-xs">{created_at}</Typography>
+          <Typography level="body-xs">commented on {created_at}</Typography>
         </Stack>
         <Box>
           <Sheet
