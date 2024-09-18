@@ -3,10 +3,13 @@ import Box from "@mui/joy/Box";
 import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
+import { StyledMarkdown } from "./StyledMarkdown";
+import { useEffect } from "react";
+import hljs from 'highlight.js';
 
 type ChatBubbleProps = {
   body: string;
-  variant: "solid" | "outlined";
+  variant: "outlined" | "soft";
   created_at: string;
   user: {
     login: string;
@@ -15,6 +18,9 @@ type ChatBubbleProps = {
 };
 
 export default function ChatBubble({ body, variant, created_at, user }: ChatBubbleProps) {
+  useEffect(() => {
+    hljs.highlightAll();
+  }, []);
   return (
     <Stack direction="row" spacing={2}>
       <Avatar size="sm" variant="solid" src={user.avatar_url} />
@@ -29,16 +35,34 @@ export default function ChatBubble({ body, variant, created_at, user }: ChatBubb
           <Sheet
             color="primary"
             variant={variant}
-            invertedColors={variant === "solid"}
+            invertedColors={variant === "soft"}
             sx={{
               p: 1.25,
               borderRadius: "lg",
-              borderTopLeftRadius: 0,
+              borderTopLeftRadius: 0
             }}
-          >
-            <Typography level="body-sm" color="primary">
-              {body}
-            </Typography>
+          ><StyledMarkdown sx={{
+            typography: "body-sm",
+            color: 'text.primary',
+            pre: {
+              bgcolor: 'neutral.500',
+              borderRadius: 4,
+            },
+            blockquote: {
+              borderLeftStyle: 'solid',
+              borderLeftWidth: 4,
+              borderLeftColor: 'neutral.700',
+              color: 'neutral.700',
+              paddingLeft: 2,
+            },
+            code: {
+              color: 'neutral.50',
+              bgcolor: 'neutral.500',
+              borderRadius: 2,
+              paddingY: '1px',
+              paddingX: '2px'
+            }
+          }}  >{body}</StyledMarkdown>
           </Sheet>
         </Box>
       </Box>

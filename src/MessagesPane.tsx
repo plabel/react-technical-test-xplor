@@ -70,11 +70,11 @@ export default function MessagesPane({
       </Stack>
       {comments.data && (
         <Stack spacing={2} justifyContent="flex-end" px={2} py={3}>
-          <ChatBubble variant="solid" {...issue.data!} />
+          <ChatBubble variant="soft" {...issue.data!} />
           {comments.data.map((comment) => (
             <ChatBubble
               key={comment.id}
-              variant={comment.user.login === issue.data!.user.login ? "solid" : "outlined"}
+              variant={comment.user.login === issue.data!.user.login ? "soft" : "outlined"}
               {...comment}
             />
           ))}

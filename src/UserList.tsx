@@ -5,7 +5,7 @@ import Typography from "@mui/joy/Typography";
 import { UserItem } from "./UserItem";
 import { useContext, useMemo } from "react";
 import { UriContext } from "./UriContext";
-import { UriContextType, Comment, UserWithCommentCount } from "./types";
+import { UriContextType, UserWithCommentCount } from "./types";
 
 export const UserList = () => {
     const {
@@ -42,9 +42,12 @@ export const UserList = () => {
                 sx={{ '--ListItemDecorator-size': '56px' }}
             >
                 {
-                    usersDataWithCommentCount.map((user: UserWithCommentCount) => <UserItem
-                        user={user}
-                    ></UserItem>)
+                    usersDataWithCommentCount
+                        .sort((a, b) => b.commentCount - a.commentCount)
+                        .map((user: UserWithCommentCount) => <UserItem
+                            user={user}
+                            key={user.login}
+                        ></UserItem>)
                 }
             </List>
         </Box>
