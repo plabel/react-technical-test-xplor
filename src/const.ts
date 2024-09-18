@@ -6,10 +6,14 @@ export const authStr = `Bearer ${mainConfig.personal_access_token}`;
 export enum TimelineEventType {
     Commented = 'commented',
     Labeled = 'labeled',
+    Closed = 'closed',
+    Reopened = 'reopened',
     CrossReferenced = 'cross-referenced',
 };
 export const timelineEventTypes: TimelineEventType[] = [
     TimelineEventType.Commented,
     TimelineEventType.Labeled,
+    TimelineEventType.Closed,
+    TimelineEventType.Reopened,
     TimelineEventType.CrossReferenced,
 ];
