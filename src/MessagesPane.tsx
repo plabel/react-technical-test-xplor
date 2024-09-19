@@ -70,8 +70,8 @@ export default function MessagesPane() {
           <ChatBubble {...issue?.data} />
           {timelineEvents.data
             .filter((timelineEvent) => timelineEventTypes.includes(timelineEvent.event as TimelineEventType))
-            .map((timelineEvent) => (
-              <TimelineItem key={timelineEvent.id} {...timelineEvent} />
+            .map((timelineEvent, index) => (
+              <TimelineItem key={index} {...timelineEvent} />
             ))}
         </Stack>
       )}

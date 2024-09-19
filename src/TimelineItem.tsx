@@ -1,3 +1,4 @@
+import { Fragment } from "react/jsx-runtime";
 import ChatBubble from "./ChatBubble";
 import Closed from "./Closed";
 import { TimelineEventType } from "./const";
@@ -13,15 +14,15 @@ export default function TimelineItem(props: TimelineItemProps) {
       case TimelineEventType.Commented:
         return <ChatBubble {...props!} />;
       case TimelineEventType.Labeled:
-        return <Labeled {...props!}></Labeled>;
+        return <Labeled {...props!} />;
       case TimelineEventType.Closed:
-        return <Closed {...props!}></Closed>;
+        return <Closed {...props!} />;
       case TimelineEventType.Reopened:
-        return <Reopened {...props!}></Reopened>;
+        return <Reopened {...props!} />;
       case TimelineEventType.CrossReferenced:
-        return <Mentioned {...props!}></Mentioned>;
+        return <Mentioned {...props!} />;
       default:
-        return <></>;
+        return <Fragment />;
     }
   };
 

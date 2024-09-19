@@ -34,7 +34,7 @@ export default function Sidebar() {
       }}
     >
       <FormControl error={error}>
-        <Input value={uri} onChange={changeHandler} />
+        <Input id="issueInput" value={uri} onChange={changeHandler} />
       </FormControl>
       <Divider></Divider>
       <UserList></UserList>
