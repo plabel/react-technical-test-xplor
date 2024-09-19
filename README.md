@@ -13,7 +13,7 @@ Sans authentication la limite de l'API est vite atteinte (60 requêtes par heure
 Si la situation se présente veuillez décommenter la ligne 18 de useFetch.ts `Authorization: authStr,`
 
 Veuillez aussi ajouter un PAT classic dans config.ts (Attention à ne pas utiliser un PAT fine-grained car l'API risque alors de filtrer certains événements de la timeline).
-Si github détecte ce token sur le web il peut être révoker sans avertissement.
+Si github détecte ce token sur le web il peut être révoked sans avertissement.
 
 ## Installation et Lancement
 
