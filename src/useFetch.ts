@@ -15,7 +15,7 @@ function useFetch<T>(
         ...config,
         url,
         headers: {
-          Authorization: authStr,
+          //Authorization: authStr,
         },
       }),
     select(data): T {
