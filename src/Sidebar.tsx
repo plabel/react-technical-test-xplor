@@ -2,21 +2,18 @@ import Input from "@mui/joy/Input";
 import Sheet from "@mui/joy/Sheet";
 import { ChangeEvent, useContext } from "react";
 import { UriContextType } from "./types";
-import { UriContext } from "./UriContext";
 import FormControl from "@mui/joy/FormControl";
-import { validateInputValue } from "./helpers/validateInputValue";
-import { UserList } from "./UserList";
 import Divider from "@mui/joy/Divider";
+import UriContext from "./UriContext";
+import UserList from "./UserList";
+import validateInputValue from "./helpers/validateInputValue";
 
 export default function Sidebar() {
-  const {
-    uri,
-    setUri,
-  }: UriContextType = useContext(UriContext);
+  const { uri, setUri }: UriContextType = useContext(UriContext);
   const error: boolean = !validateInputValue(uri);
 
   const changeHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setUri(event.target.value)
+    setUri(event.target.value);
   };
 
   return (

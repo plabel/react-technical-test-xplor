@@ -7,6 +7,7 @@
     "start": "vite",
     "build": "tsc && vite build",
     "serve": "vite preview",
+    "unit-test": "npx jest --coverage",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0 && prettier src --check"
   },
   "dependencies": {

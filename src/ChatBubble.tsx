@@ -1,17 +1,16 @@
-import { Avatar } from "@mui/joy";
 import Box from "@mui/joy/Box";
 import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
-import { StyledMarkdown } from "./StyledMarkdown";
 import { ChatBubbleProps, UriContextType } from "./types";
 import { useContext } from "react";
-import { UriContext } from "./UriContext";
-
+import Avatar from "@mui/joy/Avatar";
+import UriContext from "./UriContext";
+import StyledMarkdown from "./StyledMarkdown";
 
 export default function ChatBubble({ body, created_at, user }: ChatBubbleProps) {
   const { issue }: UriContextType = useContext(UriContext);
-  const variant: "outlined" | "soft" = user.login === issue.data!.user.login ? "soft" : "outlined"
+  const variant: "outlined" | "soft" = user.login === issue?.data!.user.login ? "soft" : "outlined";
 
   return (
     <Stack direction="row" spacing={2}>
@@ -31,30 +30,35 @@ export default function ChatBubble({ body, created_at, user }: ChatBubbleProps) 
             sx={{
               p: 1.25,
               borderRadius: "lg",
-              borderTopLeftRadius: 0
+              borderTopLeftRadius: 0,
             }}
-          ><StyledMarkdown sx={{
-            typography: "body-sm",
-            color: 'text.primary',
-            pre: {
-              bgcolor: 'neutral.500',
-              borderRadius: 4,
-            },
-            blockquote: {
-              borderLeftStyle: 'solid',
-              borderLeftWidth: 4,
-              borderLeftColor: 'neutral.700',
-              color: 'neutral.700',
-              paddingLeft: 2,
-            },
-            code: {
-              color: 'neutral.50',
-              bgcolor: 'neutral.500',
-              borderRadius: 2,
-              paddingY: '1px',
-              paddingX: '2px'
-            }
-          }}  >{body}</StyledMarkdown>
+          >
+            <StyledMarkdown
+              sx={{
+                typography: "body-sm",
+                color: "text.primary",
+                pre: {
+                  bgcolor: "neutral.500",
+                  borderRadius: 4,
+                },
+                blockquote: {
+                  borderLeftStyle: "solid",
+                  borderLeftWidth: 4,
+                  borderLeftColor: "neutral.700",
+                  color: "neutral.700",
+                  paddingLeft: 2,
+                },
+                code: {
+                  color: "neutral.50",
+                  bgcolor: "neutral.500",
+                  borderRadius: 2,
+                  paddingY: "1px",
+                  paddingX: "2px",
+                },
+              }}
+            >
+              {body}
+            </StyledMarkdown>
           </Sheet>
         </Box>
       </Box>

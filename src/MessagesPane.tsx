@@ -3,14 +3,14 @@ import Sheet from "@mui/joy/Sheet";
 import Stack from "@mui/joy/Stack";
 import Typography from "@mui/joy/Typography";
 import ChatBubble from "./ChatBubble";
-import { MessagesPaneProps } from "./types";
-import { TimelineItem } from "./TimelineItem";
 import { TimelineEventType, timelineEventTypes } from "./const";
+import { UriContextType } from "./types";
+import { useContext } from "react";
+import UriContext from "./UriContext";
+import TimelineItem from "./TimelineItem";
 
-export default function MessagesPane({
-  issue,
-  timelineEvents
-}: MessagesPaneProps) {
+export default function MessagesPane() {
+  const { issue, timelineEvents }: UriContextType = useContext(UriContext);
 
   return (
     <Sheet
@@ -32,7 +32,7 @@ export default function MessagesPane({
         py={{ xs: 2, md: 2 }}
         px={{ xs: 1, md: 2 }}
       >
-        {issue.data ? (
+        {issue?.data ? (
           <>
             <Typography
               fontWeight="lg"
@@ -56,30 +56,22 @@ export default function MessagesPane({
             </Typography>
             <Typography level="body-sm">{issue.data.user.login}</Typography>
           </>
-        ) :
-          (<>
-            <Typography
-              fontWeight="lg"
-              fontSize="lg"
-              component="h2"
-              noWrap
-            >
+        ) : (
+          <>
+            <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap>
               Issue not Found
             </Typography>
             <Typography level="body-sm">404</Typography>
-          </>)
-        }
+          </>
+        )}
       </Stack>
-      {timelineEvents.data && (
+      {timelineEvents?.data && issue?.data && (
         <Stack spacing={2} justifyContent="flex-end" px={2} py={3}>
-          <ChatBubble {...issue.data!} />
+          <ChatBubble {...issue?.data} />
           {timelineEvents.data
             .filter((timelineEvent) => timelineEventTypes.includes(timelineEvent.event as TimelineEventType))
             .map((timelineEvent) => (
-              <TimelineItem
-                key={timelineEvent.id}
-                {...timelineEvent}
-              />
+              <TimelineItem key={timelineEvent.id} {...timelineEvent} />
             ))}
         </Stack>
       )}

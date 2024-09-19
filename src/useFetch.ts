@@ -10,11 +10,14 @@ function useFetch<T>(
   return useInfiniteQuery({
     ...options,
     queryKey: [config],
-    queryFn: ({ pageParam: url }) => axios.request<T>({
-      ...config, url, headers: {
-        Authorization: authStr
-      }
-    }),
+    queryFn: ({ pageParam: url }) =>
+      axios.request<T>({
+        ...config,
+        url,
+        headers: {
+          Authorization: authStr,
+        },
+      }),
     select(data): T {
       const initialData = data.pages[0].data;
       if (data.pages.length < 2) {

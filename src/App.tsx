@@ -3,23 +3,26 @@ import CssBaseline from "@mui/joy/CssBaseline";
 import { CssVarsProvider } from "@mui/joy/styles";
 import MessagesPane from "./MessagesPane";
 import Sidebar from "./Sidebar";
-import { UriContext } from "./UriContext";
 import { useState } from "react";
 import { baseUrl, defaultUri } from "./const";
 import { Issue, UriContextType, TimelineEvent } from "./types";
 import useFetch from "./useFetch";
 import { UseInfiniteQueryResult } from "@tanstack/react-query";
+import UriContext from "./UriContext";
 
 function App() {
   const [uri, setUri] = useState<string>(defaultUri);
   const issue: UseInfiniteQueryResult<Issue, any> = useFetch<Issue>({ url: `${baseUrl}${uri}` });
-  const timelineEvents: UseInfiniteQueryResult<TimelineEvent[], any> = useFetch<TimelineEvent[]>({ url: issue.data?.timeline_url }, { enabled: issue.isFetched });
+  const timelineEvents: UseInfiniteQueryResult<TimelineEvent[], any> = useFetch<TimelineEvent[]>(
+    { url: issue.data?.timeline_url },
+    { enabled: issue.isFetched },
+  );
   const uriContextObj: UriContextType = {
     uri,
     setUri,
     timelineEvents,
     issue,
-  }
+  };
 
   return (
     <UriContext.Provider value={uriContextObj}>
@@ -30,7 +33,7 @@ function App() {
             <Sidebar />
           </Box>
           <Box component="main" sx={{ flex: 1 }}>
-            <MessagesPane issue={issue} timelineEvents={timelineEvents} />
+            <MessagesPane />
           </Box>
         </Box>
       </CssVarsProvider>
