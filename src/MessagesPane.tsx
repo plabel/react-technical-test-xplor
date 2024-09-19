@@ -8,6 +8,7 @@ import { UriContextType } from "./types";
 import { useContext } from "react";
 import UriContext from "./UriContext";
 import TimelineItem from "./TimelineItem";
+import Skeleton from "@mui/joy/Skeleton";
 
 export default function MessagesPane() {
   const { issue, timelineEvents }: UriContextType = useContext(UriContext);
@@ -58,14 +59,13 @@ export default function MessagesPane() {
           </>
         ) : (
           <>
-            <Typography fontWeight="lg" fontSize="lg" component="h2" noWrap>
-              Issue not Found
+            <Typography level="body-sm">
+              <Skeleton>Lorem ipsum is placeholder text commonly used</Skeleton>
             </Typography>
-            <Typography level="body-sm">404</Typography>
           </>
         )}
       </Stack>
-      {timelineEvents?.data && issue?.data && (
+      {timelineEvents?.data && issue?.data ? (
         <Stack spacing={2} justifyContent="flex-end" px={2} py={3}>
           <ChatBubble {...issue?.data} />
           {timelineEvents.data
@@ -73,6 +73,10 @@ export default function MessagesPane() {
             .map((timelineEvent, index) => (
               <TimelineItem key={index} {...timelineEvent} />
             ))}
+        </Stack>
+      ) : (
+        <Stack sx={{ height: "inherit" }} spacing={2} justifyContent="flex-end" px={2} py={3}>
+          <Skeleton sx={{ position: "relative" }}>Lorem ipsum is placeholder text commonly used</Skeleton>
         </Stack>
       )}
     </Sheet>
